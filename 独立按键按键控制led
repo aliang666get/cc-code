@@ -1,0 +1,30 @@
+#include <REGX52.H>
+
+void Delay1ms(unsigned int x)		//@12.000MHz
+{
+	while(x--){
+		unsigned char i, j;
+
+		i = 2;
+		j = 239;
+		do
+		{
+			while (--j);
+		} while (--i);
+	}
+}
+	
+
+void main()
+{
+	while(1)
+	{
+		if(P3_1==0)
+		{
+			Delay1ms(20);//Ïû³ý°´ÏÂµÄ¶¶¶¯
+			while(P3_1==0);//µ±°´¼üËÉ¿ªÊ±Ìø³öwhileÑ­»·
+			Delay1ms(20);//Ïû³ýËÉ¿ªÊ±µÄ¶¶¶¯
+			P2_0=~P2_0;//¸Õ¿ªÊ¼1£¬È¡·´ºóÎª0£¨0Ê±±äÁÁ£©
+		}
+	}
+}
