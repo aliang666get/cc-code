@@ -1,0 +1,12 @@
+#include <REGX52.H>
+#include "LCD1602.H"
+void main()
+{
+	 LCD_Init();//初始化液晶屏
+	 LCD_ShowChar(1,1,'A');
+	 LCD_ShowString(1,3,"woaini");
+	while(1)
+	{
+		
+	}
+}
