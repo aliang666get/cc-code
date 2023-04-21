@@ -1,12 +1,21 @@
 #include <REGX52.H>
-#include "LCD1602.H"
+#include "LCD1602.h"
+#include "Delay.h"
+#include "MATRIXKEY.H"
+unsigned char Keynum=0;
+
 void main()
 {
-	 LCD_Init();//初始化液晶屏
-	 LCD_ShowChar(1,1,'A');
-	 LCD_ShowString(1,3,"woaini");
+	LCD_Init();
+	LCD_ShowString(1,1,"Hello!");
 	while(1)
 	{
 		
+		Keynum=Matrixkey();
+		if(Keynum)
+		{
+			LCD_ShowNum(2,1,Keynum,2);
+		}
+		 
 	}
 }
