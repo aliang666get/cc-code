@@ -1,0 +1,62 @@
+#include <REGX52.H>
+#include "LCD1602.h"
+#include "Delay.h"
+#include "MATRIXKEY.H"
+unsigned char Keynum;
+unsigned int Password,Count;
+void main()
+{
+	LCD_Init();
+	LCD_ShowString(1,1,"Password");
+	while(1)
+	{
+		Keynum=Matrixkey();
+		if(Keynum)
+		{
+			if(Keynum<=10)
+			{
+				if(Count<4)//限制输入次数最多是4，防止超出范围
+				{
+					Password*=10;//让个位数字向上一级跳
+				  Password+=Keynum%10;//预防0取不到
+				}
+				Count++;
+				LCD_ShowNum(2,1,Password,4);//起到了更新屏幕的作用
+			}
+			if(Keynum==11)
+			{
+				if(Password==2344)
+				{
+					LCD_ShowString(1,13,"True");
+					Delay(1000);
+					Count=0;
+					Password=0;
+					LCD_ShowNum(2,1,Password,4);
+					LCD_ShowString(1,13,"    ");
+				}
+				else
+				{
+					LCD_ShowString(1,13,"Err");
+			   	Delay(1000);
+					Count=0;
+					Password=0;		
+					LCD_ShowNum(2,1,Password,4);
+					LCD_ShowString(1,13,"    ");
+			  }
+			}
+			if(Keynum==12)//用来完全取消输入
+			{
+				Count=0;
+				Password=0;	
+				LCD_ShowNum(2,1,Password,4);
+			}
+			if(Keynum==13)//用来取消上一位的输入
+			{
+				Count--;
+				Password/=10;
+				LCD_ShowNum(2,1,Password,4);
+			}
+	}
+
+}
+}
