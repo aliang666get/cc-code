@@ -8,7 +8,7 @@ unsigned char Matrixkey()
   * @param  
   * @retval 无
   */
-	unsigned char m;
+	unsigned char m=0;
 	  P1=0xFF;
 		P1_3=0;
 		if(P1_7==0){Delay(20);while(P1_7==0);Delay(20);m=1;};
