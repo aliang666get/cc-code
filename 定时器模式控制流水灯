@@ -1,0 +1,40 @@
+#include <REGX52.H>
+#include "TIMER0.h"
+#include "KEY.h"
+#include <INTRINS.H>
+unsigned char Keynum,LEDMODE;
+void main()
+{
+	Timer0_Init();//上电之后初始化一下
+	P2=0xff;P2=0xfe;//初始化一下，让一个灯亮
+	while(1)
+	{
+		
+		Keynum=Key();
+		if(Keynum)
+		{   
+			if(Keynum==1)//两个模式，1或者0对应着流水灯左移和右移
+			{
+				LEDMODE++;
+				if(LEDMODE>=2)LEDMODE=0;
+			}
+			
+		}
+	}
+}
+//中断控制
+void Timer0_Routine() interrupt 1
+{
+	static unsigned int T0count;
+	TL0=64535%256;//后4为
+	TH0=64535/256;//从64535开始跳到65535总共花费1000us
+	T0count++;
+	if(T0count>=1000)//每过1000ms就过来一次
+	{
+		T0count=0;
+		if(LEDMODE==0){P2=_crol_(P2,1);}//循环右移
+		if(LEDMODE==1){P2=_cror_(P2,1);}//循环左移
+	}
+	
+	
+}
